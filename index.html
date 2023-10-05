@@ -47,7 +47,7 @@
     .rating {
       display: flex;
       justify-content: center;
-      margin-top: 10px;
+      margin-top: 1px;
     }
 
     .rating input[type="radio"] {
@@ -130,86 +130,166 @@
   </style>
 </head>
 <body>
-  <div class="header">
+  <div class="Header">
      <img class="logo" src="img/LogSESI.jpg" alt="Logo SESI Saúde" style="max-width: 100%; height: 200px;">
     <h1>Pesquisa de Satisfação - SESI Saúde</h1>
 
     <form action="https://api.sheetmonkey.io/form/aBToWxd9mDJqm79ThUi5iD" method="post" id="surveyForm">
 
+    <!-- Pergunta 1 -->
+ <div class="question">
+      <label for="q1" style="font-size: 20px;">1. Qual foi o tipo de atendimento?</label>
+      <select name="q1" id="q1" style="font-size: 20px;">
+        <option value="Aberto">Aberto</option>
+        <option value="Odontologia">Odontologia</option>
+        <option value="Especialidades Médicas">Especialidades Médicas</option>
+        <option value="Médico do Trabalho">Médico do Trabalho</option>
+      </select>
+    </div>
+
+    <!-- Pergunta 2 -->
     <div class="question">
-  <label for="q1">1. Como você avalia a qualidade dos serviços do SESI Saúde?</label>
-  <div class="rating">
-    <input type="radio" name="q1" value="😞" id="q1_1">
-    <label for="q1_1" style="color: red;">😞</label>
-    <input type="radio" name="q1" value="😕" id="q1_2">
-    <label for="q1_2" style="color: orange;">😕</label>
-    <input type="radio" name="q1" value="😐" id="q1_3">
-    <label for="q1_3" style="color: yellow;">😐</label>
-    <input type="radio" name="q1" value="😊" id="q1_4">
-    <label for="q1_4" style="color: lightgreen;">😊</label>
-    <input type="radio" name="q1" value="😃" id="q1_5">
-    <label for="q1_5" style="color: green;">😃</label>
-  </div>
-</div>
-
-<div class="question">
-  <label for="q2">2. Como você avalia o atendimento recebido pelos profissionais do SESI Saúde?</label>
-  <div class="rating">
-    <input type="radio" name="q2" value="😞" id="q2_1">
-    <label for="q2_1" style="color: red;">😞</label>
-    <input type="radio" name="q2" value="😕" id="q2_2">
-    <label for="q2_2" style="color: orange;">😕</label>
-    <input type="radio" name="q2" value="😐" id="q2_3">
-    <label for="q2_3" style="color: yellow;">😐</label>
-    <input type="radio" name="q2" value="😊" id="q2_4">
-    <label for="q2_4" style="color: lightgreen;">😊</label>
-    <input type="radio" name="q2" value="😃" id="q2_5">
-    <label for="q2_5" style="color: green;">😃</label>
-  </div>
-</div>
-
-<div class="question">
-  <label for="q3">3. Como você avalia a infraestrutura da unidade do SESI Saúde?</label>
-  <div class="rating">
-    <input type="radio" name="q3" value="😞" id="q3_1">
-    <label for="q3_1" style="color: red;">😞</label>
-    <input type="radio" name="q3" value="😕" id="q3_2">
-    <label for="q3_2" style="color: orange;">😕</label>
-    <input type="radio" name="q3" value="😐" id="q3_3">
-    <label for="q3_3" style="color: yellow;">😐</label>
-    <input type="radio" name="q3" value="😊" id="q3_4">
-    <label for="q3_4" style="color: lightgreen;">😊</label>
-    <input type="radio" name="q3" value="😃" id="q3_5">
-    <label for="q3_5" style="color: green;">😃</label>
-  </div>
- 
-</div>
-      <div class="question">
-        <label for="q4">4. Deseja dar sua opinião? (não é obrigatório) </label>
-        <textarea name="q4" rows="4" cols="50" placeholder="Digite sua opinião aqui..."></textarea>
+      <label for="q2">2. Como você avalia a qualidade dos serviços do SESI Saúde?</label>
+      <div class="rating">
+        <input type="radio" name="q2" value="0" id="q2_0">
+        <label for="q2_0" style="color: red;">0</label>
+        <input type="radio" name="q2" value="1" id="q2_1">
+        <label for="q2_1" style="color: red;">1</label>
+        <input type="radio" name="q2" value="2" id="q2_2">
+        <label for="q2_2" style="color: red;">2</label>
+        <input type="radio" name="q2" value="3" id="q2_3">
+        <label for="q2_3" style="color: red;">3</label>
+        <input type="radio" name="q2" value="4" id="q2_4">
+        <label for="q2_4" style="color: red;">4</label>
+        <input type="radio" name="q2" value="5" id="q2_5">
+        <label for="q2_5" style="color:yellow;">5</label>
+        <input type="radio" name="q2" value="6" id="q2_6">
+        <label for="q2_6" style="color:yellow;">6</label>
+        <input type="radio" name="q2" value="7" id="q2_7">
+        <label for="q2_7" style="color:yellow;">7</label>
+        <input type="radio" name="q2" value="8" id="q2_8">
+        <label for="q2_8" style="color:lightgreen;">8</label>
+        <input type="radio" name="q2" value="9" id="q2_9">
+        <label for="q2_9" style="color:lightgreen;">9</label>
+        <input type="radio" name="q2" value="10" id="q2_10">
+        <label for="q2_10" style="color:green;">10</label>
       </div>
-
-      <div class="submit-button">
-        <button type="submit">Enviar</button>
-      </div>
-
-      <div id="warningContainer" class="warning"></div>
-    </form>
-
-    <div id="resultContainer" class="result">
-      <h<h2>Obrigado por participar da pesquisa!</h2>
-  <p>Seu feedback é muito importante para nós.</p>
-  <p>Em caso de dúvidas ou necessidade de contato, você pode entrar em contato com o nosso SAC através do telefone 0800 600 9606.</p>
-  <p>Para assuntos relacionados à Ouvidoria SESI, você pode entrar em contato pelos seguintes meios:</p>
-  <p>Telefone: (81) 3412.8555 ou (81) 3412.8550</p>
-  <p>E-mail: <a href="mailto:ouvidoria@sistemafiepe.org.br">ouvidoria@sistemafiepe.org.br</a></p>
-  <p>Horário de Atendimento: 08h às 12h e das 13h às 17h</p>
     </div>
 
-    <div class="legend">
-      <h3>Níveis de satisfação:</h3>
-      <img src="img/Emojiamarelo.jpg" height="250" alt="Níveis de satisfação" id="satisfactionImage">
+    <!-- Pergunta 3 -->
+    <div class="question">
+      <label for="q3">3. Como você avalia o atendimento recebido pelos profissionais do SESI Saúde?</label>
+      <div class="rating">
+        <input type="radio" name="q3" value="0" id="q3_0">
+        <label for="q3_0" style="color: red;">0</label>
+        <input type="radio" name="q3" value="1" id="q3_1">
+        <label for="q3_1" style="color: red;">1</label>
+        <input type="radio" name="q3" value="1" id="q3_2">
+        <label for="q3_2" style="color: red;">2</label>
+        <input type="radio" name="q3" value="1" id="q3_3">
+        <label for="q3_3" style="color: red;">3</label>
+        <input type="radio" name="q3" value="1" id="q3_4">
+        <label for="q3_4" style="color: red;">4</label>
+        <input type="radio" name="q3" value="1" id="q3_5">
+        <label for="q3_5" style="color: yellow;">5</label>
+        <input type="radio" name="q3" value="1" id="q3_6">
+        <label for="q3_6" style="color: yellow;">6</label>
+        <input type="radio" name="q3" value="1" id="q3_7">
+        <label for="q3_7" style="color: yellow;">7</label>
+        <input type="radio" name="q3" value="8" id="q3_8">
+        <label for="q3_8" style="color:lightgreen;">8</label>
+        <input type="radio" name="q3" value="9" id="q3_9">
+        <label for="q3_9" style="color:lightgreen;">9</label>
+        <input type="radio" name="q3" value="10" id="q3_10">
+        <label for="q3_10" style="color:green;">10</label>
+      </div>
     </div>
+
+    <!-- Pergunta 4 -->
+    <div class="question">
+      <label for="q4">4. Como você avalia a infraestrutura da unidade do SESI Saúde?</label>
+      <div class="rating">
+        <input type="radio" name="q4" value="0" id="q4_0">
+        <label for="q4_0" style="color: red;">0</label>
+        <input type="radio" name="q4" value="1" id="q4_1">
+        <label for="q4_1" style="color: red;">1</label>
+        <input type="radio" name="q4" value="1" id="q4_2">
+        <label for="q4_2" style="color: red;">2</label>
+        <input type="radio" name="q4" value="1" id="q4_3">
+        <label for="q4_3" style="color: red;">3</label>
+        <input type="radio" name="q4" value="1" id="q4_4">
+        <label for="q4_4" style="color: red;">4</label>
+        <input type="radio" name="q4" value="1" id="q4_5">
+        <label for="q4_5" style="color: yellow;">5</label>
+        <input type="radio" name="q4" value="1" id="q4_6">
+        <label for="q4_6" style="color: yellow;">6</label>
+        <input type="radio" name="q4" value="1" id="q4_7">
+        <label for="q4_7" style="color: yellow;">7</label>
+        <input type="radio" name="q4" value="8" id="q4_8">
+        <label for="q4_8" style="color:lightgreen;">8</label>
+        <input type="radio" name="q4" value="9" id="q4_9">
+        <label for="q4_9" style="color:lightgreen;">9</label>
+        <input type="radio" name="q4" value="10" id="q4_10">
+        <label for="q4_10" style="color:green;">10</label>
+      </div>
+    </div>
+
+    <!-- Pergunta 5 -->
+    <div class="question">
+      <label for="q5">5. Qual a chance de você indicar os serviços do SESI Saúde para amigos e familiares?</label>
+      <div class="rating">
+   <input type="radio" name="q5" value="0" id="q5_0">
+        <label for="q5_0" style="color: red;">0</label>
+        <input type="radio" name="q5" value="1" id="q5_1">
+        <label for="q5_1" style="color: red;">1</label>
+        <input type="radio" name="q5" value="1" id="q5_2">
+        <label for="q5_2" style="color: red;">2</label>
+        <input type="radio" name="q5" value="1" id="q5_3">
+        <label for="q5_3" style="color: red;">3</label>
+        <input type="radio" name="q5" value="1" id="q5_4">
+        <label for="q5_4" style="color: red;">4</label>
+        <input type="radio" name="q5" value="1" id="q5_5">
+        <label for="q5_5" style="color: yellow;">5</label>
+        <input type="radio" name="q5" value="1" id="q5_6">
+        <label for="q5_6" style="color: yellow;">6</label>
+        <input type="radio" name="q5" value="1" id="q5_7">
+        <label for="q5_7" style="color: yellow;">7</label>
+        <input type="radio" name="q5" value="8" id="q5_8">
+        <label for="q5_8" style="color:lightgreen;">8</label>
+        <input type="radio" name="q5" value="9" id="q5_9">
+        <label for="q5_9" style="color:lightgreen;">9</label>
+        <input type="radio" name="q5" value="10" id="q5_10">
+        <label for="q5_10" style="color:green;">10</label>
+      </div>
+    </div>
+
+    <!-- Pergunta 6 -->
+    <div class="question">
+      <label for="q6">6. Deseja dar sua opinião? (não é obrigatório)</label>
+      <textarea name="q6" rows="4" cols="50" placeholder="Digite sua opinião aqui..."></textarea>
+    </div>
+
+<div class="submit-button">
+  <button type="submit">Enviar</button>
+</div>
+
+<div id="warningContainer" class="warning"></div>
+</form>
+
+<!-- Adicione um elemento <p> para a mensagem abaixo do botão -->
+<p style="margin-top: 22px; text-align: center; font-size: 20px;" >
+  Obrigado por participar da pesquisa!<br>
+  Seu feedback é muito importante para nós.<br>
+  Em caso de dúvidas ou necessidade de contato, você pode entrar em contato com o nosso SAC através do telefone 0800 600 9606.<br>
+  Para assuntos relacionados à Ouvidoria SESI, você pode entrar em contato pelos seguintes meios:<br>
+  Telefone: (81) 3412.8555 ou (81) 3412.8550<br>
+  E-mail: <a href="mailto:ouvidoria@sistemafiepe.org.br">ouvidoria@sistemafiepe.org.br</a><br>
+  Horário de Atendimento: 08h às 12h e das 13h às 17h.
+</p>
+
+
+
+<script>
   </div>
 
   <script>
@@ -217,49 +297,18 @@
     const resultContainer = document.getElementById("resultContainer");
     const warningContainer = document.getElementById("warningContainer");
 
-    surveyForm.addEventListener("submit", function (event) {
-      event.preventDefault();
-      const answeredQuestions = document.querySelectorAll("input[type='radio']:checked");
-      if (answeredQuestions.length === 3) {
-        showResult();
-      } else {
-        warningContainer.innerText = "Por favor, responda todas as questões.";
-      }
-    });
+    const sheetMonkeyAPI = "https://api.sheetmonkey.io/form/aBTo
 
-    function showResult() {
-      surveyForm.style.display = "none";
-      resultContainer.style.display = "block";
-     
-      setTimeout(function() {
-        surveyForm.style.display = "block";
-        resultContainer.style.display = "none";
-        surveyForm.reset();
-        warningContainer.innerText = ""; // Limpar a mensagem de aviso
-      }, 10000); // Tempo em milissegundos antes de reiniciar a tela (neste exemplo, 10 segundos)
-    }
-   
-    // Função adicionada
-    const ratingInputs = document.querySelectorAll("input[type='radio']");
-    ratingInputs.forEach(function (input) {
-      input.addEventListener("change", function () {
-        warningContainer.innerText = ""; // Limpar a mensagem de aviso
-      });
-    });
-  </script>
- 
-    <script>
     const surveyForm = document.getElementById("surveyForm");
     const resultContainer = document.getElementById("resultContainer");
     const warningContainer = document.getElementById("warningContainer");
-	const satisfactionImage = document.getElementById("satisfactionImage"); // Elemento da imagem de satisfação
 
     const sheetMonkeyAPI = "https://api.sheetmonkey.io/form/aBToWxd9mDJqm79ThUi5iD";
 
     surveyForm.addEventListener("submit", function (event) {
       event.preventDefault();
       const answeredQuestions = document.querySelectorAll("input[type='radio']:checked");
-      if (answeredQuestions.length === 3) {
+      if (answeredQuestions.length === 5) {
         // Enviar respostas para o Sheet Monkey
         const formData = new FormData(surveyForm);
         const entries = formData.entries();
@@ -268,11 +317,34 @@
           data[entry[0]] = entry[1];
         }
         sendDataToSheetMonkey(data);
+      } else {
+        warningContainer.innerText = "Por favor, responda todas
 
-        showResult();
+    const surveyForm = document.getElementById("surveyForm");
+    const resultContainer = document.getElementById("resultContainer");
+    const warningContainer = document.getElementById("warningContainer");
+
+    const sheetMonkeyAPI = "https://api.sheetmonkey.io/form/aBToWxd9mDJqm79ThUi5iD";
+
+    surveyForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+      const answeredQuestions = document.querySelectorAll("input[type='radio']:checked");
+      if (answeredQuestions.length === 5) {
+        // Enviar respostas para o Sheet Monkey
+        const formData = new FormData(surveyForm);
+        const entries = formData.entries();
+        const data = {};
+        for (const entry of entries) {
+          data[entry[0]] = entry[1];
+        }
+        sendDataToSheetMonkey(data);
       } else {
         warningContainer.innerText = "Por favor, responda todas as questões.";
+        return; // Impede o envio se todas as perguntas não estiverem respondidas
       }
+
+      // Exibir mensagem de agradecimento
+      showResult();
     });
 
     function sendDataToSheetMonkey(data) {
@@ -298,21 +370,13 @@
     }
 
     function showResult() {
-      // Alterar a imagem para a logo do SESI Saúde
-      satisfactionImage.src = "img/LogoSESI_Saude.jpg"; // Substitua "img/LogoSESI_Saude.jpg" pelo caminho da imagem da logo do SESI Saúde
+      // Esconder o formulário de pesquisa
+      surveyForm.style.display = "none";
 
-       setTimeout(function() {
-        // Restaurar a imagem original quando reiniciar a tela
-        satisfactionImage.src = "img/emojis.jpeg"; // Substitua pelo caminho da imagem original
-        surveyForm.style.display = "block";
-        resultContainer.style.display = "none";
-        surveyForm.reset();
-        warningContainer.innerText = ""; // Limpar a mensagem de aviso
-      }, 3000); // Tempo em milissegundos antes de reiniciar a tela (neste exemplo, 10 segundos)
+      // Exibir a mensagem de agradecimento
+      resultContainer.style.display = "block";
     }
 
-    // ... Código para adicionar evento de limpar aviso existente ...
-
-  </script>
+</script>
 </body>
 </html>
