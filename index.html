@@ -1,386 +1,265 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pesquisa de Satisfação - SESI Saúde</title>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pesquisa de Satisfação - SESI Saúde</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    .question-card { text-align: center; }
+    select { text-align: center; text-align-last: center; }
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-    />
+    .rating-label {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    }
+    .rating input[type="radio"]:checked + .rating-label {
+      transform: scale(1.18);
+      box-shadow: 0 0 0 5px rgba(0, 102, 204, 0.4);
+      border: 3px solid #0066cc;
+      background-color: #1e40af !important;
+      color: white;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-gray-50">
 
-    <style>
-      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
-      body {
-        font-family: "Inter", system-ui, sans-serif;
-      }
-      .question-card {
-        text-align: center;
-      }
-      select {
-        text-align: center;
-        text-align-last: center;
-      }
-
-      .rating-label {
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
-      }
-      .rating input[type="radio"]:checked + .rating-label {
-        transform: scale(1.18);
-        box-shadow: 0 0 0 5px rgba(0, 102, 204, 0.4);
-        border: 3px solid #0066cc;
-        background-color: #1e40af !important;
-        color: white;
-      }
-
-      /* Fix para os gráficos */
-      canvas {
-        max-height: 320px !important;
-      }
-    </style>
-  </head>
-  <body class="min-h-screen bg-gray-50">
-    <!-- Cabeçalho -->
-    <header class="bg-white shadow-md sticky top-0 z-50">
-      <div
-        class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between"
-      >
-        <div class="flex items-center gap-4">
-          <img
-            src="img/sesisaude.png"
-            alt="Logo SESI Saúde"
-            class="h-12 w-auto"
-          />
-          <div>
-            <h1 class="text-2xl font-bold text-gray-800">Pesquisa Rapidinha</h1>
-            <p class="text-blue-600">SESI Saúde</p>
-          </div>
+  <!-- Cabeçalho -->
+  <header class="bg-white shadow-md sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <img src="img/sesisaude.png" alt="Logo SESI Saúde" class="h-12 w-auto">
+        <div>
+          <h1 class="text-2xl font-bold text-gray-800">Pesquisa Rapidinha</h1>
+          <p class="text-blue-600">SESI Saúde</p>
         </div>
-        <button
-          onclick="openAdmin()"
-          class="flex items-center gap-2 bg-blue-700 hover:bg-blue-800 text-white px-6 py-3 rounded-2xl font-medium transition-all"
-        >
-          <i class="fas fa-chart-bar"></i>
-          <span>Gerenciar Respostas (BI)</span>
-        </button>
       </div>
-    </header>
-
-    <!-- TELA DA PESQUISA -->
-    <div id="surveyScreen" class="max-w-3xl mx-auto px-6 pt-8 pb-12">
-      <form id="surveyForm" class="space-y-6">
-        <div class="mb-6">
-          <div class="flex justify-between text-sm text-gray-500 mb-2">
-            <span>Progresso</span>
-            <span id="progressText">0/5</span>
-          </div>
-          <div class="h-2.5 bg-gray-200 rounded-full overflow-hidden">
-            <div
-              id="progressBar"
-              class="h-2.5 bg-blue-600 rounded-full w-0 transition-all"
-            ></div>
-          </div>
-        </div>
-
-        <div class="question-card bg-white p-6 rounded-3xl shadow">
-          <label class="block text-base font-semibold text-gray-800 mb-4"
-            >1. Que tipo de atendimento você fez hoje?</label
-          >
-          <select
-            name="q1"
-            id="q1"
-            required
-            class="w-full max-w-xs mx-auto text-base py-4 px-5 border border-gray-300 rounded-2xl"
-          >
-            <option value="">Escolha uma opção...</option>
-            <option value="Odontologia">Odontologia</option>
-            <option value="Especialidades Médicas">
-              Especialidades Médicas
-            </option>
-            <option value="Medicina do Trabalho">Medicina do Trabalho</option>
-          </select>
-        </div>
-
-        <div id="questionsContainer" class="space-y-6"></div>
-
-        <div class="question-card bg-white p-6 rounded-3xl shadow">
-          <label class="block text-base font-semibold text-gray-800 mb-4"
-            >6. Quer deixar algum comentário, opinião ou sugestão (Opcional)?</label
-          >
-          <textarea
-            name="q6"
-            id="q6"
-            rows="3"
-            class="w-full max-w-lg mx-auto px-5 py-4 border border-gray-300 rounded-2xl text-base resize-none"
-            placeholder="Escreva aqui sua opinião..."
-          ></textarea>
-        </div>
-
-        <button
-          type="submit"
-          class="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold text-xl py-6 rounded-3xl shadow-lg"
-        >
-          ENVIAR MINHA OPINIÃO
-        </button>
-      </form>
+      <button onclick="openAdmin()" class="flex items-center gap-2 bg-blue-700 hover:bg-blue-800 text-white px-6 py-3 rounded-2xl font-medium transition-all">
+        <i class="fas fa-chart-bar"></i>
+        <span>Gerenciar Respostas (BI)</span>
+      </button>
     </div>
+  </header>
 
-    <!-- TELA DO BI -->
-    <div id="adminScreen" class="hidden min-h-screen bg-gray-100">
-      <div class="max-w-6xl mx-auto p-6">
-        <div class="flex justify-between items-center mb-8">
-          <h1 class="text-3xl font-bold">
-            📊 Dashboard de Satisfação - SESI Saúde
-          </h1>
-          <div class="flex gap-3">
-            <button
-              onclick="exportToExcel()"
-              class="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-2xl font-medium"
-            >
-              <i class="fas fa-download"></i> Baixar Excel
-            </button>
-            <button
-              onclick="closeAdmin()"
-              class="text-red-600 hover:text-red-700 font-medium"
-            >
-              ← Voltar
-            </button>
-          </div>
+  <!-- TELA DA PESQUISA -->
+  <div id="surveyScreen" class="max-w-3xl mx-auto px-6 pt-8 pb-12">
+    <form id="surveyForm" class="space-y-6">
+      <div class="mb-6">
+        <div class="flex justify-between text-sm text-gray-500 mb-2">
+          <span>Progresso</span>
+          <span id="progressText">0/5</span>
         </div>
-
-        <!-- KPIs -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-          <div class="bg-white p-6 rounded-3xl shadow text-center">
-            <p class="text-gray-500">Total Respostas</p>
-            <p id="totalResponses" class="text-4xl font-bold text-blue-600">
-              187
-            </p>
-          </div>
-          <div class="bg-white p-6 rounded-3xl shadow text-center">
-            <p class="text-gray-500">Média Geral</p>
-            <p id="avgScore" class="text-4xl font-bold text-emerald-600">8.6</p>
-          </div>
-          <div class="bg-white p-6 rounded-3xl shadow text-center">
-            <p class="text-gray-500">NPS</p>
-            <p id="npsScore" class="text-4xl font-bold text-amber-600">68</p>
-          </div>
-          <div class="bg-white p-6 rounded-3xl shadow text-center">
-            <p class="text-gray-500">% Excelente</p>
-            <p id="excellentPct" class="text-4xl font-bold text-purple-600">
-              61%
-            </p>
-          </div>
+        <div class="h-2.5 bg-gray-200 rounded-full overflow-hidden">
+          <div id="progressBar" class="h-2.5 bg-blue-600 rounded-full w-0 transition-all"></div>
         </div>
+      </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div class="bg-white p-6 rounded-3xl shadow">
-            <h3 class="font-semibold mb-4">Média por Critério</h3>
-            <canvas id="chartCriteria" height="280"></canvas>
-          </div>
-          <div class="bg-white p-6 rounded-3xl shadow">
-            <h3 class="font-semibold mb-4">Distribuição de Notas</h3>
-            <canvas id="chartDistribution" height="280"></canvas>
-          </div>
+      <div class="question-card bg-white p-6 rounded-3xl shadow">
+        <label class="block text-base font-semibold text-gray-800 mb-4">1. Que tipo de atendimento você fez hoje?</label>
+        <select name="q1" id="q1" required class="w-full max-w-xs mx-auto text-base py-4 px-5 border border-gray-300 rounded-2xl">
+          <option value="">Escolha uma opção...</option>
+          <option value="Odontologia">Odontologia</option>
+          <option value="Especialidades Médicas">Especialidades Médicas</option>
+          <option value="Medicina do Trabalho">Medicina do Trabalho</option>
+        </select>
+      </div>
+
+      <div id="questionsContainer" class="space-y-6"></div>
+
+      <div class="question-card bg-white p-6 rounded-3xl shadow">
+        <label class="block text-base font-semibold text-gray-800 mb-4">6. Quer deixar algum comentário? (opcional)</label>
+        <textarea name="q6" id="q6" rows="3" class="w-full max-w-lg mx-auto px-5 py-4 border border-gray-300 rounded-2xl text-base resize-none" placeholder="Escreva aqui sua opinião..."></textarea>
+      </div>
+
+      <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold text-xl py-6 rounded-3xl shadow-lg">
+        ENVIAR MINHA OPINIÃO
+      </button>
+    </form>
+  </div>
+
+  <!-- TELA DO BI -->
+  <div id="adminScreen" class="hidden min-h-screen bg-gray-100">
+    <div class="max-w-6xl mx-auto p-6">
+      <div class="flex justify-between items-center mb-8">
+        <h1 class="text-3xl font-bold">📊 Dashboard de Satisfação - SESI Saúde</h1>
+        <div class="flex gap-3">
+          <button onclick="exportToExcel()" class="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-2xl font-medium">
+            <i class="fas fa-download"></i> Baixar Excel
+          </button>
+          <button onclick="closeAdmin()" class="text-red-600 hover:text-red-700 font-medium">← Voltar</button>
         </div>
+      </div>
 
-        <div class="mt-6 bg-white p-6 rounded-3xl shadow">
-          <h3 class="font-semibold mb-4">Evolução da Satisfação</h3>
-          <canvas id="chartTrend" height="220"></canvas>
+      <!-- KPIs Dinâmicos -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div class="bg-white p-6 rounded-3xl shadow text-center">
+          <p class="text-gray-500">Total Respostas</p>
+          <p id="totalResponses" class="text-4xl font-bold text-blue-600">0</p>
+        </div>
+        <div class="bg-white p-6 rounded-3xl shadow text-center">
+          <p class="text-gray-500">Média Geral</p>
+          <p id="avgScore" class="text-4xl font-bold text-emerald-600">0.0</p>
+        </div>
+        <div class="bg-white p-6 rounded-3xl shadow text-center">
+          <p class="text-gray-500">NPS Estimado</p>
+          <p id="npsScore" class="text-4xl font-bold text-amber-600">0</p>
+        </div>
+        <div class="bg-white p-6 rounded-3xl shadow text-center">
+          <p class="text-gray-500">% Excelente (9-10)</p>
+          <p id="excellentPct" class="text-4xl font-bold text-purple-600">0%</p>
+        </div>
+      </div>
+
+      <!-- Gráficos -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="bg-white p-6 rounded-3xl shadow">
+          <h3 class="font-semibold mb-4">Média por Critério</h3>
+          <canvas id="chartCriteria" height="280"></canvas>
+        </div>
+        <div class="bg-white p-6 rounded-3xl shadow">
+          <h3 class="font-semibold mb-4">Distribuição de Notas</h3>
+          <canvas id="chartDistribution" height="280"></canvas>
         </div>
       </div>
     </div>
+  </div>
 
-    <script>
-      let charts = {};
+  <script>
+    let allResponses = [];
 
-      function createRatingQuestion(num, label) {
-        const container = document.getElementById("questionsContainer");
-        const div = document.createElement("div");
-        div.className = "question-card bg-white p-6 rounded-3xl shadow";
-        div.innerHTML = `
+    function createRatingQuestion(num, label) {
+      const container = document.getElementById('questionsContainer');
+      const div = document.createElement('div');
+      div.className = "question-card bg-white p-6 rounded-3xl shadow";
+      div.innerHTML = `
         <label class="block text-base font-semibold text-gray-800 mb-4">${num}. ${label}</label>
         <div class="grid grid-cols-11 gap-2 rating max-w-2xl mx-auto">
-          ${Array.from(
-            { length: 11 },
-            (_, i) => `
+          ${Array.from({length:11}, (_,i) => `
             <input type="radio" name="q${num}" value="${i}" id="q${num}_${i}" class="hidden peer">
-            <label for="q${num}_${i}" class="rating-label peer-checked:scale-110 text-center py-4 rounded-2xl text-white font-bold text-base cursor-pointer bg-${i <= 2 ? "red" : i <= 4 ? "orange" : i <= 6 ? "yellow" : i <= 8 ? "lime" : "emerald"}-500 hover:brightness-110">
+            <label for="q${num}_${i}" class="rating-label peer-checked:scale-110 text-center py-4 rounded-2xl text-white font-bold text-base cursor-pointer bg-${i<=2?'red':i<=4?'orange':i<=6?'yellow':i<=8?'lime':'emerald'}-500 hover:brightness-110">
               ${i}
-            </label>`,
-          ).join("")}
+            </label>`).join('')}
         </div>
         <div class="flex justify-between text-xs text-gray-400 mt-3 px-2 max-w-2xl mx-auto">
           <span>Muito ruim</span><span>Ótimo</span>
         </div>
       `;
-        container.appendChild(div);
+      container.appendChild(div);
+    }
+
+    // Calcular KPIs dinamicamente
+    function updateKPIs() {
+      const total = allResponses.length;
+      document.getElementById('totalResponses').textContent = total;
+
+      if (total === 0) {
+        document.getElementById('avgScore').textContent = "0.0";
+        document.getElementById('npsScore').textContent = "0";
+        document.getElementById('excellentPct').textContent = "0%";
+        return;
       }
 
-      function destroyCharts() {
-        Object.values(charts).forEach((chart) => {
-          if (chart) chart.destroy();
-        });
-        charts = {};
+      let sum = 0;
+      let promoters = 0; // 9 e 10
+      let detractors = 0; // 0-6
+
+      allResponses.forEach(r => {
+        const avg = (r.q2_qualidade_servicos + r.q3_atendimento_profissionais + 
+                     r.q4_infraestrutura + r.q5_indicacao) / 4;
+        sum += avg;
+
+        const indicacao = r.q5_indicacao;
+        if (indicacao >= 9) promoters++;
+        else if (indicacao <= 6) detractors++;
+      });
+
+      const avgGeral = (sum / total).toFixed(1);
+      const nps = Math.round(((promoters / total) - (detractors / total)) * 100);
+      const excellent = Math.round((allResponses.filter(r => r.q5_indicacao >= 9).length / total) * 100);
+
+      document.getElementById('avgScore').textContent = avgGeral;
+      document.getElementById('npsScore').textContent = nps;
+      document.getElementById('excellentPct').textContent = excellent + "%";
+    }
+
+    function exportToExcel() {
+      if (allResponses.length === 0) {
+        alert("Ainda não há respostas para exportar.");
+        return;
       }
 
-      function renderBI() {
-        destroyCharts();
+      const excelData = [
+        ["Data", "Hora", "Tipo de Atendimento", "Qualidade dos Serviços", "Atendimento dos Profissionais", 
+         "Infraestrutura", "Chance de Indicar", "Comentário"]
+      ];
 
-        // Média por Critério
-        charts.criteria = new Chart(document.getElementById("chartCriteria"), {
-          type: "bar",
-          data: {
-            labels: [
-              "Qualidade",
-              "Profissionais",
-              "Infraestrutura",
-              "Indicação",
-            ],
-            datasets: [
-              {
-                label: "Média",
-                data: [8.9, 8.7, 7.9, 9.1],
-                backgroundColor: "#3b82f6",
-                borderRadius: 6,
-              },
-            ],
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-              y: { beginAtZero: true, max: 10 },
-            },
-          },
-        });
+      allResponses.forEach(r => {
+        const dataHora = new Date(r.timestamp);
+        excelData.push([
+          dataHora.toLocaleDateString('pt-BR'),
+          dataHora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }),
+          r.q1_tipo_atendimento,
+          r.q2_qualidade_servicos,
+          r.q3_atendimento_profissionais,
+          r.q4_infraestrutura,
+          r.q5_indicacao,
+          r.q6_comentario || ""
+        ]);
+      });
 
-        // Distribuição de Notas
-        charts.distribution = new Chart(
-          document.getElementById("chartDistribution"),
-          {
-            type: "doughnut",
-            data: {
-              labels: ["Ruim (0-4)", "Regular (5-7)", "Ótimo (8-10)"],
-              datasets: [
-                {
-                  data: [18, 45, 124],
-                  backgroundColor: ["#ef4444", "#f59e0b", "#22c55e"],
-                },
-              ],
-            },
-            options: { responsive: true, maintainAspectRatio: false },
-          },
-        );
+      const ws = XLSX.utils.aoa_to_sheet(excelData);
+      ws['!cols'] = [{wch:12},{wch:10},{wch:22},{wch:18},{wch:22},{wch:18},{wch:16},{wch:60}];
 
-        // Evolução
-        charts.trend = new Chart(document.getElementById("chartTrend"), {
-          type: "line",
-          data: {
-            labels: ["05/05", "08/05", "11/05", "14/05", "17/05", "20/05"],
-            datasets: [
-              {
-                label: "Média Geral",
-                data: [7.8, 8.1, 8.4, 8.7, 8.5, 8.9],
-                borderColor: "#3b82f6",
-                tension: 0.4,
-                fill: false,
-              },
-            ],
-          },
-          options: { responsive: true, maintainAspectRatio: false },
-        });
-      }
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "Respostas");
+      XLSX.writeFile(wb, "Pesquisa_Satisfacao_SESI_Saude_2026.xlsx");
+    }
 
-      function exportToExcel() {
-        const data = [
-          [
-            "Data",
-            "Hora",
-            "Tipo de Atendimento",
-            "Qualidade dos Serviços",
-            "Atendimento dos Profissionais",
-            "Infraestrutura",
-            "Chance de Indicar",
-            "Comentário",
-          ],
-          [
-            "20/05/2026",
-            "10:15",
-            "Odontologia",
-            9,
-            10,
-            8,
-            9,
-            "Atendimento excelente!",
-          ],
-          [
-            "20/05/2026",
-            "09:45",
-            "Especialidades Médicas",
-            7,
-            8,
-            6,
-            7,
-            "Demorou um pouco na espera",
-          ],
-        ];
+    // Envio da pesquisa
+    document.getElementById('surveyForm').addEventListener('submit', (e) => {
+      e.preventDefault();
 
-        const ws = XLSX.utils.aoa_to_sheet(data);
-        ws["!cols"] = [
-          { wch: 12 },
-          { wch: 10 },
-          { wch: 22 },
-          { wch: 18 },
-          { wch: 22 },
-          { wch: 18 },
-          { wch: 16 },
-          { wch: 50 },
-        ];
-
-        const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, "Respostas");
-        XLSX.writeFile(
-          wb,
-          `Pesquisa_Satisfacao_SESI_${new Date().toISOString().slice(0, 10)}.xlsx`,
-        );
-      }
-
-      function openAdmin() {
-        document.getElementById("surveyScreen").classList.add("hidden");
-        document.getElementById("adminScreen").classList.remove("hidden");
-        renderBI();
-      }
-
-      function closeAdmin() {
-        document.getElementById("adminScreen").classList.add("hidden");
-        document.getElementById("surveyScreen").classList.remove("hidden");
-      }
-
-      // Inicialização
-      window.onload = () => {
-        createRatingQuestion(
-          2,
-          "Como foi sua experiência geral no SESI Saúde hoje (Qualidade dos serviços)?",
-        );
-        createRatingQuestion(3, "O que você achou dos atendimentos dos profissionais (Recepções, Equipe médica, Equipe de enfermagem)?");
-        createRatingQuestion(4, "Como está a estrutura da unidade (Cadeiras, Banheiros, TVs)?");
-        createRatingQuestion(
-          5,
-          "Você recomendaria o SESI Saúde para alguém próximo (Parentes, Amigos)?",
-        );
+      const response = {
+        timestamp: new Date(),
+        q1_tipo_atendimento: document.getElementById('q1').value,
+        q2_qualidade_servicos: parseInt(document.querySelector('input[name="q2"]:checked')?.value || 0),
+        q3_atendimento_profissionais: parseInt(document.querySelector('input[name="q3"]:checked')?.value || 0),
+        q4_infraestrutura: parseInt(document.querySelector('input[name="q4"]:checked')?.value || 0),
+        q5_indicacao: parseInt(document.querySelector('input[name="q5"]:checked')?.value || 0),
+        q6_comentario: document.getElementById('q6').value.trim()
       };
 
-      // Envio
-      document.getElementById("surveyForm").addEventListener("submit", (e) => {
-        e.preventDefault();
-        alert("✅ Resposta registrada com sucesso!");
-        document.getElementById("surveyForm").reset();
-      });
-    </script>
-  </body>
+      allResponses.unshift(response);
+      updateKPIs();
+
+      alert("✅ Resposta registrada com sucesso!");
+      document.getElementById('surveyForm').reset();
+    });
+
+    function openAdmin() {
+      document.getElementById('surveyScreen').classList.add('hidden');
+      document.getElementById('adminScreen').classList.remove('hidden');
+      updateKPIs();
+    }
+
+    function closeAdmin() {
+      document.getElementById('adminScreen').classList.add('hidden');
+      document.getElementById('surveyScreen').classList.remove('hidden');
+    }
+
+    window.onload = () => {
+      createRatingQuestion(2, 'Como você achou do atendimento geral do SESI Saúde?');
+      createRatingQuestion(3, 'O que você achou dos profissionais?');
+      createRatingQuestion(4, 'Como está a estrutura da unidade?');
+      createRatingQuestion(5, 'Você indicaria o SESI Saúde para um amigo ou familiar?');
+    };
+  </script>
+</body>
 </html>
