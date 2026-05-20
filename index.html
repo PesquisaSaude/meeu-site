@@ -1,376 +1,386 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Pesquisa de Satisfação - SESI Saúde</title>
- 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-    }
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pesquisa de Satisfação - SESI Saúde</title>
 
-    .container {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    />
 
-    .logo {
-      display: block;
-      margin: 0 auto;
-      width: 100%;
-      max-width: 800px;
-      height: auto;
-      margin-bottom: 20px;
-    }
-
-    h1 {
-      margin-bottom: 20px;
-      text-align: center;
-    }
-
-    .question {
-      margin-bottom: 20px;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .question label {
-      font-size: 21px; /* Defina o tamanho da fonte desejado aqui */
-    }
-
-    .rating {
-      display: flex;
-      justify-content: center;
-      margin-top: 1px;
-    }
-
-    .rating input[type="radio"] {
-      display: none;
-    }
-
-    .rating label {
-      cursor: pointer;
-      font-size: 24px;
-      padding: 10px 20px;
-      border-radius: 5px;
-      border: none;
-      background-color: #f5f5f5;
-      transition: background-color 0.3s ease;
-      margin: 0 5px;
-    }
-
-    .rating label:hover {
-      background-color: #e0e0e0;
-    }
-
-    .rating input[type="radio"]:checked+label {
-      background-color: #333;
-      color: #fff;
-    }
-
-    .submit-button {
-      margin-top: 20px;
-      text-align: center;
-    }
-
-    .submit-button button {
-      font-size: 24px;
-      padding: 15px 30px;
-      cursor: pointer;
-      background-color: #333;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      transition: background-color 0.3s ease;
-    }
-
-    .submit-button button:hover {
-      background-color: #555;
-    }
-
-    .result {
-      display: none;
-      margin-top: 20px;
-      text-align: center;
-    }
-
-    .result h2 {
-      margin-bottom: 10px;
-    }
-
-    .result p {
-      font-size: 20px;
-    }
-
-    .legend {
-      text-align: center;
-      margin-top: 20px;
-    }
-
-    .warning {
-      color: red;
-      margin-top: 10px;
-      text-align: center;
-    }
-
-    textarea {
-      width: 80%;
-      max-width: 600px;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      resize: vertical;
-    }
-  </style>
-</head>
-<body>
-  <div class="Header">
-     <img class="logo" src="img/Logopequena.jpg" alt="Logo SESI Saúde" style="max-width: 100%; height: 200px;">
-    <h1>Pesquisa de Satisfação - SESI Saúde</h1>
-
-    <form action="https://api.sheetmonkey.io/form/aBToWxd9mDJqm79ThUi5iD" method="post" id="surveyForm">
-
-        <!-- Pergunta 1 -->
-<style>
-  /* Estilo para o <select> quando estiver em foco */
-  select:focus {
-    font-size: 20px; /* Aumente o tamanho da fonte quando o <select> está em foco */
-  }
-</style>
-
-<!-- Pergunta 1 -->
-<div class="question" style="display: flex; justify-content: center;">
-  <div>
-    <label for="q1" style="font-size: 21px;">1. Qual foi o tipo de atendimento?</label>
-  </div>
-  <div>
-    <select name="q1" id="q1" style="font-size: 22px; text-align: center;" required>
-      <option value="Selecione" style="font-size: 20px; text-align: center;">Selecione aqui</option>
-      <option value="Odontologia" style="font-size: 20px; text-align: center;">Odontologia</option>
-      <option value="Especialidades Médicas" style="font-size: 20px; text-align: center;">Especialidades Médicas</option>
-      <option value="Medicina do Trabalho" style="font-size: 20px; text-align: center;">Medicina do Trabalho</option>
-    </select>
-  </div>
-</div>
-
-<!-- Pergunta 2 -->
-<div class="question">
-  <label for="q2">2. Como você avalia a qualidade dos serviços do SESI Saúde?</label>
-  <div class="rating">
-    <input type="radio" name="q2" value="0" id="q2_0" required>
-    <label for="q2_0" style="background-color: #FF0000;">0</label>
-    <input type="radio" name="q2" value="1" id="q2_1" required>
-    <label for="q2_1" style="background-color: #FF3333;">1</label>
-    <input type="radio" name="q2" value="2" id="q2_2" required>
-    <label for="q2_2" style="background-color: #FF6666;">2</label>
-    <input type="radio" name="q2" value="3" id="q2_3" required>
-    <label for="q2_3" style="background-color: #FF9900;">3</label>
-    <input type="radio" name="q2" value="4" id="q2_4" required>
-    <label for="q2_4" style="background-color: #FFCC33;">4</label>
-    <input type="radio" name="q2" value="5" id="q2_5" required>
-    <label for="q2_5" style="background-color: #FFFF00;">5</label>
-    <input type="radio" name="q2" value="6" id="q2_6" required>
-    <label for="q2_6" style="background-color: #CCFF33;">6</label>
-    <input type="radio" name="q2" value="7" id="q2_7" required>
-    <label for="q2_7" style="background-color: #99FF33;">7</label>
-    <input type="radio" name="q2" value="8" id="q2_8" required>
-    <label for="q2_8" style="background-color: #66FF33;">8</label>
-    <input type="radio" name="q2" value="9" id="q2_9" required>
-    <label for="q2_9" style="background-color: #33FF33;">9</label>
-    <input type="radio" name="q2" value="10" id="q2_10" required>
-    <label for="q2_10" style="background-color: #00FF00;">10</label>
-  </div>
-</div>
-
-<!-- Pergunta 3 -->
-<div class="question">
-  <label for="q3">3. Como você avalia o atendimento recebido pelos profissionais do SESI Saúde?</label>
-  <div class="rating">
-    <input type="radio" name="q3" value="0" id="q3_0" required>
-    <label for="q3_0" style="background-color: #FF0000;">0</label>
-    <input type="radio" name="q3" value="1" id="q3_1" required>
-    <label for="q3_1" style="background-color: #FF3333;">1</label>
-    <input type="radio" name="q3" value="2" id="q3_2" required>
-    <label for="q3_2" style="background-color: #FF6666;">2</label>
-    <input type="radio" name="q3" value="3" id="q3_3" required>
-    <label for="q3_3" style="background-color: #FF9900;">3</label>
-    <input type="radio" name="q3" value="4" id="q3_4" required>
-    <label for="q3_4" style="background-color: #FFCC33;">4</label>
-    <input type="radio" name="q3" value="5" id="q3_5" required>
-    <label for="q3_5" style="background-color: #FFFF00;">5</label>
-    <input type="radio" name="q3" value="6" id="q3_6" required>
-    <label for="q3_6" style="background-color: #CCFF33;">6</label>
-    <input type="radio" name="q3" value="7" id="q3_7" required>
-    <label for="q3_7" style="background-color: #99FF33;">7</label>
-    <input type="radio" name="q3" value="8" id="q3_8" required>
-    <label for="q3_8" style="background-color: #66FF33;">8</label>
-    <input type="radio" name="q3" value="9" id="q3_9" required>
-    <label for="q3_9" style="background-color: #33FF33;">9</label>
-    <input type="radio" name="q3" value="10" id="q3_10" required>
-    <label for="q3_10" style="background-color: #00FF00;">10</label>
-  </div>
-</div>
-
-<!-- Pergunta 4 -->
-<div class="question">
-  <label for="q4">4. Como você avalia a infraestrutura da unidade do SESI Saúde?</label>
-  <div class="rating">
-    <input type="radio" name="q4" value="0" id="q4_0" required>
-    <label for="q4_0" style="background-color: #FF0000;">0</label>
-    <input type="radio" name="q4" value="1" id="q4_1" required>
-    <label for="q4_1" style="background-color: #FF3333;">1</label>
-    <input type="radio" name="q4" value="2" id="q4_2" required>
-    <label for="q4_2" style="background-color: #FF6666;">2</label>
-    <input type="radio" name="q4" value="3" id="q4_3" required>
-    <label for="q4_3" style="background-color: #FF9900;">3</label>
-    <input type="radio" name="q4" value="4" id="q4_4" required>
-    <label for="q4_4" style="background-color: #FFCC33;">4</label>
-    <input type="radio" name="q4" value="5" id="q4_5" required>
-    <label for="q4_5" style="background-color: #FFFF00;">5</label>
-    <input type="radio" name="q4" value="6" id="q4_6" required>
-    <label for="q4_6" style="background-color: #CCFF33;">6</label>
-    <input type="radio" name="q4" value="7" id="q4_7" required>
-    <label for="q4_7" style="background-color: #99FF33;">7</label>
-    <input type="radio" name="q4" value="8" id="q4_8" required>
-    <label for="q4_8" style="background-color: #66FF33;">8</label>
-    <input type="radio" name="q4" value="9" id="q4_9" required>
-    <label for="q4_9" style="background-color: #33FF33;">9</label>
-    <input type="radio" name="q4" value="10" id="q4_10" required>
-    <label for="q4_10" style="background-color: #00FF00;">10</label>
-  </div>
-</div>
-
-<!-- Pergunta 5 -->
-<div class="question">
-  <label for="q5">5. Qual a chance de você indicar os serviços do SESI Saúde para amigos e familiares?</label>
-  <div class="rating">
-    <input type="radio" name="q5" value="0" id="q5_0" required>
-    <label for="q5_0" style="background-color: #FF0000;">0</label>
-    <input type="radio" name="q5" value="1" id="q5_1" required>
-    <label for="q5_1" style="background-color: #FF3333;">1</label>
-    <input type="radio" name="q5" value="2" id="q5_2" required>
-    <label for="q5_2" style="background-color: #FF6666;">2</label>
-    <input type="radio" name="q5" value="3" id="q5_3" required>
-    <label for="q5_3" style="background-color: #FF9900;">3</label>
-    <input type="radio" name="q5" value="4" id="q5_4" required>
-    <label for="q5_4" style="background-color: #FFCC33;">4</label>
-    <input type="radio" name="q5" value="5" id="q5_5" required>
-    <label for="q5_5" style="background-color: #FFFF00;">5</label>
-    <input type="radio" name="q5" value="6" id="q5_6" required>
-    <label for="q5_6" style="background-color: #CCFF33;">6</label>
-    <input type="radio" name="q5" value="7" id="q5_7" required>
-    <label for="q5_7" style="background-color: #99FF33;">7</label>
-    <input type="radio" name="q5" value="8" id="q5_8" required>
-    <label for="q5_8" style="background-color: #66FF33;">8</label>
-    <input type="radio" name="q5" value="9" id="q5_9" required>
-    <label for="q5_9" style="background-color: #33FF33;">9</label>
-    <input type="radio" name="q5" value="10" id="q5_10" required>
-    <label for="q5_10" style="background-color: #00FF00;">10</label>
-  </div>
-</div>
-
-
-    <!-- Pergunta 6 -->
-    <div class="question">
-      <label for="q6">6. Deseja dar sua opinião? (não é obrigatório)</label>
-      <textarea name="q6" rows="4" cols="50" placeholder="Digite sua opinião aqui..."></textarea>
-    </div>
-
-<div class="submit-button">
-  <button type="submit">Enviar</button>
-</div>
-
-<div id="warningContainer" class="warning"></div>
-</form>
-
-<!-- Adicione um elemento <p> para a mensagem abaixo do botão -->
-<p style="margin-top: 22px; text-align: center; font-size: 19px;" >
-  Obrigado por participar da pesquisa!<br>
-  Seu feedback é muito importante para nós.<br>
-  SAC: 0800 600 9606.<br>
-  Ouvidoria SESI<br>
-  Telefone: (81) 3412.8555 ou (81) 3412.8550<br>
-  E-mail: <a href="mailto:ouvidoria@sistemafiepe.org.br">ouvidoria@sistemafiepe.org.br</a><br>
-  Horário de Atendimento: 08h às 12h e das 13h às 17h.
-</p>
-
-            <div class="warning">
-                <p>Este formulário é anônimo. Não coletamos informações pessoais.</p>
-            </div>
-
-<script>
-  </div>
-
-  <script>
-    const surveyForm = document.getElementById("surveyForm");
-    const resultContainer = document.getElementById("resultContainer");
-    const warningContainer = document.getElementById("warningContainer");
-
-    const sheetMonkeyAPI = "https://api.sheetmonkey.io/form/aBTo
-
-    const surveyForm = document.getElementById("surveyForm");
-    const resultContainer = document.getElementById("resultContainer");
-    const warningContainer = document.getElementById("warningContainer");
-
-    const sheetMonkeyAPI = "https://api.sheetmonkey.io/form/aBToWxd9mDJqm79ThUi5iD";
-
-    surveyForm.addEventListener("submit", function (event) {
-      event.preventDefault();
-      const answeredQuestions = document.querySelectorAll("input[type='radio']:checked");
-      if (answeredQuestions.length === 5) {
-        // Enviar respostas para o Sheet Monkey
-        const formData = new FormData(surveyForm);
-        const entries = formData.entries();
-        const data = {};
-        for (const entry of entries) {
-          data[entry[0]] = entry[1];
-        }
-        sendDataToSheetMonkey(data);
-      } else {
-        warningContainer.innerText = "Por favor, responda todas as questões.";
-        return; // Impede o envio se todas as perguntas não estiverem respondidas
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+      body {
+        font-family: "Inter", system-ui, sans-serif;
+      }
+      .question-card {
+        text-align: center;
+      }
+      select {
+        text-align: center;
+        text-align-last: center;
       }
 
-      // Exibir mensagem de agradecimento
-      showResult();
-    });
+      .rating-label {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+      }
+      .rating input[type="radio"]:checked + .rating-label {
+        transform: scale(1.18);
+        box-shadow: 0 0 0 5px rgba(0, 102, 204, 0.4);
+        border: 3px solid #0066cc;
+        background-color: #1e40af !important;
+        color: white;
+      }
 
-    function sendDataToSheetMonkey(data) {
-      fetch(sheetMonkeyAPI, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-      })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error("Erro ao enviar dados para o Sheet Monkey.");
-        }
-        return response.json();
-      })
-      .then(result => {
-        console.log(result); // Resposta do Sheet Monkey (opcional, pode ser removido)
-      })
-      .catch(error => {
-        console.error(error); // Tratar erros (opcional, pode ser removido)
+      /* Fix para os gráficos */
+      canvas {
+        max-height: 320px !important;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen bg-gray-50">
+    <!-- Cabeçalho -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+      <div
+        class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between"
+      >
+        <div class="flex items-center gap-4">
+          <img
+            src="img/sesisaude.png"
+            alt="Logo SESI Saúde"
+            class="h-12 w-auto"
+          />
+          <div>
+            <h1 class="text-2xl font-bold text-gray-800">Pesquisa Rapidinha</h1>
+            <p class="text-blue-600">SESI Saúde</p>
+          </div>
+        </div>
+        <button
+          onclick="openAdmin()"
+          class="flex items-center gap-2 bg-blue-700 hover:bg-blue-800 text-white px-6 py-3 rounded-2xl font-medium transition-all"
+        >
+          <i class="fas fa-chart-bar"></i>
+          <span>Gerenciar Respostas (BI)</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- TELA DA PESQUISA -->
+    <div id="surveyScreen" class="max-w-3xl mx-auto px-6 pt-8 pb-12">
+      <form id="surveyForm" class="space-y-6">
+        <div class="mb-6">
+          <div class="flex justify-between text-sm text-gray-500 mb-2">
+            <span>Progresso</span>
+            <span id="progressText">0/5</span>
+          </div>
+          <div class="h-2.5 bg-gray-200 rounded-full overflow-hidden">
+            <div
+              id="progressBar"
+              class="h-2.5 bg-blue-600 rounded-full w-0 transition-all"
+            ></div>
+          </div>
+        </div>
+
+        <div class="question-card bg-white p-6 rounded-3xl shadow">
+          <label class="block text-base font-semibold text-gray-800 mb-4"
+            >1. Que tipo de atendimento você fez hoje?</label
+          >
+          <select
+            name="q1"
+            id="q1"
+            required
+            class="w-full max-w-xs mx-auto text-base py-4 px-5 border border-gray-300 rounded-2xl"
+          >
+            <option value="">Escolha uma opção...</option>
+            <option value="Odontologia">Odontologia</option>
+            <option value="Especialidades Médicas">
+              Especialidades Médicas
+            </option>
+            <option value="Medicina do Trabalho">Medicina do Trabalho</option>
+          </select>
+        </div>
+
+        <div id="questionsContainer" class="space-y-6"></div>
+
+        <div class="question-card bg-white p-6 rounded-3xl shadow">
+          <label class="block text-base font-semibold text-gray-800 mb-4"
+            >6. Quer deixar algum comentário, opinião ou sugestão (Opcional)?</label
+          >
+          <textarea
+            name="q6"
+            id="q6"
+            rows="3"
+            class="w-full max-w-lg mx-auto px-5 py-4 border border-gray-300 rounded-2xl text-base resize-none"
+            placeholder="Escreva aqui sua opinião..."
+          ></textarea>
+        </div>
+
+        <button
+          type="submit"
+          class="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold text-xl py-6 rounded-3xl shadow-lg"
+        >
+          ENVIAR MINHA OPINIÃO
+        </button>
+      </form>
+    </div>
+
+    <!-- TELA DO BI -->
+    <div id="adminScreen" class="hidden min-h-screen bg-gray-100">
+      <div class="max-w-6xl mx-auto p-6">
+        <div class="flex justify-between items-center mb-8">
+          <h1 class="text-3xl font-bold">
+            📊 Dashboard de Satisfação - SESI Saúde
+          </h1>
+          <div class="flex gap-3">
+            <button
+              onclick="exportToExcel()"
+              class="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-2xl font-medium"
+            >
+              <i class="fas fa-download"></i> Baixar Excel
+            </button>
+            <button
+              onclick="closeAdmin()"
+              class="text-red-600 hover:text-red-700 font-medium"
+            >
+              ← Voltar
+            </button>
+          </div>
+        </div>
+
+        <!-- KPIs -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+          <div class="bg-white p-6 rounded-3xl shadow text-center">
+            <p class="text-gray-500">Total Respostas</p>
+            <p id="totalResponses" class="text-4xl font-bold text-blue-600">
+              187
+            </p>
+          </div>
+          <div class="bg-white p-6 rounded-3xl shadow text-center">
+            <p class="text-gray-500">Média Geral</p>
+            <p id="avgScore" class="text-4xl font-bold text-emerald-600">8.6</p>
+          </div>
+          <div class="bg-white p-6 rounded-3xl shadow text-center">
+            <p class="text-gray-500">NPS</p>
+            <p id="npsScore" class="text-4xl font-bold text-amber-600">68</p>
+          </div>
+          <div class="bg-white p-6 rounded-3xl shadow text-center">
+            <p class="text-gray-500">% Excelente</p>
+            <p id="excellentPct" class="text-4xl font-bold text-purple-600">
+              61%
+            </p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="bg-white p-6 rounded-3xl shadow">
+            <h3 class="font-semibold mb-4">Média por Critério</h3>
+            <canvas id="chartCriteria" height="280"></canvas>
+          </div>
+          <div class="bg-white p-6 rounded-3xl shadow">
+            <h3 class="font-semibold mb-4">Distribuição de Notas</h3>
+            <canvas id="chartDistribution" height="280"></canvas>
+          </div>
+        </div>
+
+        <div class="mt-6 bg-white p-6 rounded-3xl shadow">
+          <h3 class="font-semibold mb-4">Evolução da Satisfação</h3>
+          <canvas id="chartTrend" height="220"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let charts = {};
+
+      function createRatingQuestion(num, label) {
+        const container = document.getElementById("questionsContainer");
+        const div = document.createElement("div");
+        div.className = "question-card bg-white p-6 rounded-3xl shadow";
+        div.innerHTML = `
+        <label class="block text-base font-semibold text-gray-800 mb-4">${num}. ${label}</label>
+        <div class="grid grid-cols-11 gap-2 rating max-w-2xl mx-auto">
+          ${Array.from(
+            { length: 11 },
+            (_, i) => `
+            <input type="radio" name="q${num}" value="${i}" id="q${num}_${i}" class="hidden peer">
+            <label for="q${num}_${i}" class="rating-label peer-checked:scale-110 text-center py-4 rounded-2xl text-white font-bold text-base cursor-pointer bg-${i <= 2 ? "red" : i <= 4 ? "orange" : i <= 6 ? "yellow" : i <= 8 ? "lime" : "emerald"}-500 hover:brightness-110">
+              ${i}
+            </label>`,
+          ).join("")}
+        </div>
+        <div class="flex justify-between text-xs text-gray-400 mt-3 px-2 max-w-2xl mx-auto">
+          <span>Muito ruim</span><span>Ótimo</span>
+        </div>
+      `;
+        container.appendChild(div);
+      }
+
+      function destroyCharts() {
+        Object.values(charts).forEach((chart) => {
+          if (chart) chart.destroy();
+        });
+        charts = {};
+      }
+
+      function renderBI() {
+        destroyCharts();
+
+        // Média por Critério
+        charts.criteria = new Chart(document.getElementById("chartCriteria"), {
+          type: "bar",
+          data: {
+            labels: [
+              "Qualidade",
+              "Profissionais",
+              "Infraestrutura",
+              "Indicação",
+            ],
+            datasets: [
+              {
+                label: "Média",
+                data: [8.9, 8.7, 7.9, 9.1],
+                backgroundColor: "#3b82f6",
+                borderRadius: 6,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: { beginAtZero: true, max: 10 },
+            },
+          },
+        });
+
+        // Distribuição de Notas
+        charts.distribution = new Chart(
+          document.getElementById("chartDistribution"),
+          {
+            type: "doughnut",
+            data: {
+              labels: ["Ruim (0-4)", "Regular (5-7)", "Ótimo (8-10)"],
+              datasets: [
+                {
+                  data: [18, 45, 124],
+                  backgroundColor: ["#ef4444", "#f59e0b", "#22c55e"],
+                },
+              ],
+            },
+            options: { responsive: true, maintainAspectRatio: false },
+          },
+        );
+
+        // Evolução
+        charts.trend = new Chart(document.getElementById("chartTrend"), {
+          type: "line",
+          data: {
+            labels: ["05/05", "08/05", "11/05", "14/05", "17/05", "20/05"],
+            datasets: [
+              {
+                label: "Média Geral",
+                data: [7.8, 8.1, 8.4, 8.7, 8.5, 8.9],
+                borderColor: "#3b82f6",
+                tension: 0.4,
+                fill: false,
+              },
+            ],
+          },
+          options: { responsive: true, maintainAspectRatio: false },
+        });
+      }
+
+      function exportToExcel() {
+        const data = [
+          [
+            "Data",
+            "Hora",
+            "Tipo de Atendimento",
+            "Qualidade dos Serviços",
+            "Atendimento dos Profissionais",
+            "Infraestrutura",
+            "Chance de Indicar",
+            "Comentário",
+          ],
+          [
+            "20/05/2026",
+            "10:15",
+            "Odontologia",
+            9,
+            10,
+            8,
+            9,
+            "Atendimento excelente!",
+          ],
+          [
+            "20/05/2026",
+            "09:45",
+            "Especialidades Médicas",
+            7,
+            8,
+            6,
+            7,
+            "Demorou um pouco na espera",
+          ],
+        ];
+
+        const ws = XLSX.utils.aoa_to_sheet(data);
+        ws["!cols"] = [
+          { wch: 12 },
+          { wch: 10 },
+          { wch: 22 },
+          { wch: 18 },
+          { wch: 22 },
+          { wch: 18 },
+          { wch: 16 },
+          { wch: 50 },
+        ];
+
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Respostas");
+        XLSX.writeFile(
+          wb,
+          `Pesquisa_Satisfacao_SESI_${new Date().toISOString().slice(0, 10)}.xlsx`,
+        );
+      }
+
+      function openAdmin() {
+        document.getElementById("surveyScreen").classList.add("hidden");
+        document.getElementById("adminScreen").classList.remove("hidden");
+        renderBI();
+      }
+
+      function closeAdmin() {
+        document.getElementById("adminScreen").classList.add("hidden");
+        document.getElementById("surveyScreen").classList.remove("hidden");
+      }
+
+      // Inicialização
+      window.onload = () => {
+        createRatingQuestion(
+          2,
+          "Como foi sua experiência geral no SESI Saúde hoje (Qualidade dos serviços)?",
+        );
+        createRatingQuestion(3, "O que você achou dos atendimentos dos profissionais (Recepções, Equipe médica, Equipe de enfermagem)?");
+        createRatingQuestion(4, "Como está a estrutura da unidade (Cadeiras, Banheiros, TVs)?");
+        createRatingQuestion(
+          5,
+          "Você recomendaria o SESI Saúde para alguém próximo (Parentes, Amigos)?",
+        );
+      };
+
+      // Envio
+      document.getElementById("surveyForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+        alert("✅ Resposta registrada com sucesso!");
+        document.getElementById("surveyForm").reset();
       });
-    }
-
-    function showResult() {
-      // Esconder o formulário de pesquisa
-      surveyForm.style.display = "none";
-
-      // Exibir a mensagem de agradecimento
-      resultContainer.style.display = "block";
-    }
-
-</script>
-</body>
+    </script>
+  </body>
 </html>
